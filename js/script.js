@@ -375,8 +375,10 @@ if (mobileLoginBtn) {
         if (currentUser) {
             if(confirm("로그아웃 하시겠습니까?")) {
                 handleSignOut();
-            }
+            } 
             return;
+        } else {
+          console.log("로그인 모달 열기");
         }
         loginModal.style.display = "flex";
         loginModal.style.zIndex = "99999";
