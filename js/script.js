@@ -27,21 +27,37 @@ const tagsContainer = document.querySelector(".quokka-tags");
 const personalityFilter = document.getElementById("personality-filter");
 const searchResults = document.getElementById("search-results");
 
+// 2-2. 요소 선택: Upload 섹션
+const uploadSection = document.getElementById("upload-section");
+const tabUpload = document.getElementById("tab-upload");
+const fileInput = document.getElementById("file-input");
+const uploadArea = document.querySelector(".upload-area");
+const uploadBtn = document.getElementById("upload-btn");
+const uploadName = document.getElementById("upload-name");
+const uploadPersonality = document.getElementById("upload-personality");
+const uploadStatus = document.getElementById("upload-status");
+
 // 3. 탭 전환 기능
 function switchTab(tabName) {
+    // 모든 탭 비활성화
+    voteSection.style.display = 'none';
+    breedsSection.style.display = 'none';
+    uploadSection.style.display = 'none';
+    
+    tabVoting.classList.remove('active');
+    tabBreeds.classList.remove('active');
+    tabUpload.classList.remove('active');
+
     if (tabName === 'voting') {
         voteSection.style.display = 'block';
-        breedsSection.style.display = 'none';
         tabVoting.classList.add('active');
-        tabBreeds.classList.remove('active');
     } else if (tabName === 'breeds') {
-        voteSection.style.display = 'none';
         breedsSection.style.display = 'block';
-        tabVoting.classList.remove('active');
         tabBreeds.classList.add('active');
-        
-        // 브리드 탭 처음 열 때 목록 갱신
-        filterQuokkas(); 
+        filterQuokkas();
+    } else if (tabName === 'upload') {
+        uploadSection.style.display = 'block';
+        tabUpload.classList.add('active');
     }
 }
 
@@ -231,10 +247,94 @@ newQuokkaBtn.addEventListener("click", fetchRandomQuokka);
 loveBtn.addEventListener("click", toggleLove);
 personalityFilter.addEventListener("change", filterQuokkas);
 
-// 전역 함수로 등록
-window.switchTab = switchTab;
+// 탭 클릭 이벤트 연결 (HTML onclick 대신 사용)
+tabVoting.addEventListener("click", () => switchTab('voting'));
+tabBreeds.addEventListener("click", () => switchTab('breeds'));
+tabUpload.addEventListener("click", () => switchTab('upload'));
+
+// 전역 함수 등록 제거 (이제 필요 없음)
+// window.switchTab = switchTab;
 
 // 초기 데이터 로드 (첫 화면용)
 fetchRandomQuokka();
 
-console.log("The Quokka API v3.0 (Supabase Connected) Started...");
+// 8. 이미지 업로드 처리
+async function handleUpload() {
+    const file = fileInput.files[0];
+    const name = uploadName.value;
+    const personality = uploadPersonality.value;
+
+    if (!file || !name) {
+        alert("사진과 이름을 모두 입력해주세요!");
+        return;
+    }
+
+    uploadBtn.disabled = true;
+    uploadBtn.textContent = "UPLOADING...";
+    uploadStatus.textContent = "이미지를 업로드 중입니다...";
+
+    try {
+        // 1. Storage에 이미지 업로드
+        // 파일 이름을 유니크하게 만들기 (시간_파일이름)
+        const fileName = `${Date.now()}_${file.name}`;
+        
+        const { data: uploadData, error: uploadError } = await _supabase.storage
+            .from('images')
+            .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        // 2. 이미지 URL 가져오기
+        const { data: { publicUrl } } = _supabase.storage
+            .from('images')
+            .getPublicUrl(fileName);
+
+        // 3. Database에 정보 저장
+        const { error: dbError } = await _supabase
+            .from('quokkas')
+            .insert({
+                name: name,
+                personality: personality,
+                image_url: publicUrl,
+                location: 'User Uploaded', // 사용자가 올린 건 위치를 이렇게 고정
+                likes: 0
+            });
+
+        if (dbError) throw dbError;
+
+        // 성공 처리
+        alert("쿼카 등록 성공! 🎉");
+        uploadStatus.textContent = "업로드 완료!";
+        
+        // 입력창 초기화
+        fileInput.value = "";
+        uploadName.value = "";
+        uploadArea.querySelector("p").textContent = "클릭해서 쿼카 사진을 선택하세요!";
+        
+        // Voting 탭으로 이동해서 내 쿼카 확인해보기
+        switchTab('voting');
+        fetchRandomQuokka(); // 목록 갱신
+
+    } catch (err) {
+        console.error("업로드 실패:", err);
+        alert("업로드 중 오류가 발생했습니다 ㅠㅠ");
+        uploadStatus.textContent = "오류 발생";
+    } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = "UPLOAD QUOKKA";
+    }
+}
+
+// 업로드 영역 클릭 시 파일 파일 선택창 열기
+uploadArea.addEventListener("click", () => fileInput.click());
+
+// 파일 선택 시 미리보기 텍스트 변경
+fileInput.addEventListener("change", (e) => {
+    if (e.target.files.length > 0) {
+        uploadArea.querySelector("p").textContent = `선택된 파일: ${e.target.files[0].name}`;
+    }
+});
+
+uploadBtn.addEventListener("click", handleUpload);
+
+console.log("The Quokka API v3.5 (Upload Feature Added) Started...");
