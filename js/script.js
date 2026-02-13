@@ -353,7 +353,8 @@ uploadBtn.addEventListener("click", handleUpload);
 // 모달 열기/닫기
 accountLink.addEventListener("click", (e) => {
     e.preventDefault(); // 링크 이동 방지
-    
+    console.log("ACCOUNT 클릭됨!"); // 디버깅용 메시지
+
     // 만약 이미 로그인된 상태라면? -> 로그아웃 확인
     if (currentUser) {
         if(confirm("로그아웃 하시겠습니까?")) {
@@ -363,7 +364,24 @@ accountLink.addEventListener("click", (e) => {
     }
 
     loginModal.style.display = "flex";
+    loginModal.style.zIndex = "99999"; // 제일 위로 올리기
 });
+
+// 모바일/PC 공용 로그인 버튼 (사람 아이콘) 연결
+const mobileLoginBtn = document.getElementById("mobile-login-btn");
+if (mobileLoginBtn) {
+    mobileLoginBtn.addEventListener("click", () => {
+        // 이미 로그인된 상태? -> 로그아웃
+        if (currentUser) {
+            if(confirm("로그아웃 하시겠습니까?")) {
+                handleSignOut();
+            }
+            return;
+        }
+        loginModal.style.display = "flex";
+        loginModal.style.zIndex = "99999";
+    });
+}
 
 btnCloseModal.addEventListener("click", () => {
     loginModal.style.display = "none";
