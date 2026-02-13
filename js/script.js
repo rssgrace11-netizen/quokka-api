@@ -37,6 +37,18 @@ const uploadName = document.getElementById("upload-name");
 const uploadPersonality = document.getElementById("upload-personality");
 const uploadStatus = document.getElementById("upload-status");
 
+// 2-3. 요소 선택: Auth (로그인)
+const accountLink = document.getElementById("account-link");
+const loginModal = document.getElementById("login-modal");
+const loginEmail = document.getElementById("login-email");
+const loginPassword = document.getElementById("login-password");
+const btnSignIn = document.getElementById("btn-signin");
+const btnSignUp = document.getElementById("btn-signup");
+const btnCloseModal = document.getElementById("btn-close-modal");
+
+// 현재 로그인한 사용자 정보
+let currentUser = null;
+
 // 3. 탭 전환 기능
 function switchTab(tabName) {
     // 모든 탭 비활성화
@@ -337,4 +349,121 @@ fileInput.addEventListener("change", (e) => {
 
 uploadBtn.addEventListener("click", handleUpload);
 
-console.log("The Quokka API v3.5 (Upload Feature Added) Started...");
+// 9. 로그인/회원가입 관련 기능
+// 모달 열기/닫기
+accountLink.addEventListener("click", (e) => {
+    e.preventDefault(); // 링크 이동 방지
+    
+    // 만약 이미 로그인된 상태라면? -> 로그아웃 확인
+    if (currentUser) {
+        if(confirm("로그아웃 하시겠습니까?")) {
+            handleSignOut();
+        }
+        return;
+    }
+
+    loginModal.style.display = "flex";
+});
+
+btnCloseModal.addEventListener("click", () => {
+    loginModal.style.display = "none";
+});
+
+// 회원가입 처리
+async function handleSignUp() {
+    const email = loginEmail.value;
+    const password = loginPassword.value;
+
+    if (!email || !password) {
+        alert("이메일과 비밀번호를 입력해주세요.");
+        return;
+    }
+
+    try {
+        const { data, error } = await _supabase.auth.signUp({
+            email: email,
+            password: password,
+        });
+
+        if (error) throw error;
+
+        alert("회원가입 성공! 🎉\n이제 로그인 버튼을 눌러주세요.");
+        
+    } catch (err) {
+        console.error("회원가입 에러:", err);
+        alert("회원가입 실패: " + err.message);
+    }
+}
+
+// 로그인 처리
+async function handleSignIn() {
+    const email = loginEmail.value;
+    const password = loginPassword.value;
+
+    try {
+        const { data, error } = await _supabase.auth.signInWithPassword({
+            email: email,
+            password: password,
+        });
+
+        if (error) throw error;
+
+        // 로그인 성공 시
+        currentUser = data.user;
+        updateAccountUI(); // UI 업데이트
+        loginModal.style.display = "none"; // 모달 닫기
+        alert(`환영합니다! ${email.split('@')[0]}님 👋`);
+        
+        // 입력창 초기화
+        loginEmail.value = "";
+        loginPassword.value = "";
+
+    } catch (err) {
+        console.error("로그인 에러:", err);
+        alert("로그인 실패: 이메일이나 비밀번호를 확인해주세요.");
+    }
+}
+
+// 로그아웃 처리
+async function handleSignOut() {
+    try {
+        const { error } = await _supabase.auth.signOut();
+        if (error) throw error;
+
+        currentUser = null;
+        updateAccountUI();
+        alert("로그아웃 되었습니다.");
+
+    } catch (err) {
+        console.error("로그아웃 에러:", err);
+    }
+}
+
+// UI 업데이트 (로그인 상태에 따라 메뉴 이름 변경)
+function updateAccountUI() {
+    if (currentUser) {
+        accountLink.textContent = "LOGOUT (" + currentUser.email.split('@')[0] + ")";
+        accountLink.style.color = "#ff6b6b"; // 로그인하면 색깔 다르게
+    } else {
+        accountLink.textContent = "ACCOUNT";
+        accountLink.style.color = ""; // 원래 색으로
+    }
+}
+
+// 버튼 이벤트 연결
+btnSignUp.addEventListener("click", handleSignUp);
+btnSignIn.addEventListener("click", handleSignIn);
+
+// 페이지 로드 시 로그인 상태 체크 (자동 로그인)
+async function checkSession() {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session) {
+        currentUser = session.user;
+        updateAccountUI();
+    }
+}
+
+// 앱 시작 시 세션 체크 실행
+checkSession();
+
+console.log("The Quokka API v4.0 (Auth Added) Started...");
