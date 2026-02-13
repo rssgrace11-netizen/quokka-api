@@ -1,34 +1,11 @@
 
-// 1. 확장된 가짜 데이터베이스 (Mock Database)
-const quokkaDatabase = [
-  {
-    id: "qk_001",
-    url: "images/Quokka.jpg",
-    alt: "활짝 웃는 쿼카",
-    name: "Happy Quokka",
-    personality: "명랑함",
-    location: "Rottnest Island - Main Settlement",
-    likes: ["셀카 찍기", "관광객 구경하기"]
-  },
-  {
-    id: "qk_002",
-    url: "images/Quokka2.jpg",
-    alt: "나뭇잎을 먹는 쿼카",
-    name: "Hungry Quokka",
-    personality: "먹보",
-    location: "Rottnest Island - West End",
-    likes: ["신선한 유칼립투스 잎", "낮잠"]
-  },
-  {
-    id: "qk_003",
-    url: "images/Quokka3.jpg",
-    alt: "호기심 가득한 쿼카",
-    name: "Curious Quokka",
-    personality: "호기심 대장",
-    location: "Rottnest Island - Pinky Beach",
-    likes: ["카메라 렌즈", "새로운 친구"]
-  }
-];
+// 1. Supabase 설정 (🚨여기에 복사한 키를 넣으세요!)
+const PROJECT_URL = 'https://ugrvxaixtxaohjlxffbp.supabase.co'; // 예: https://abcdefg.supabase.co
+const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVncnZ4YWl4dHhhb2hqbHhmZmJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5NDUxOTQsImV4cCI6MjA4NjUyMTE5NH0.kwknHwv7FOpay4gPZqgDUyXDBRo84UTBkRryB2RJJ5w'; // 예: eyJhbGciOiJIUzI1NiIs... (anon key)
+
+// Supabase 클라이언트 생성
+const { createClient } = supabase;
+const _supabase = createClient(PROJECT_URL, API_KEY);
 
 // 2. 요소 선택: Voting 섹션
 const voteSection = document.getElementById("vote-section");
@@ -65,17 +42,35 @@ function switchTab(tabName) {
     }
 }
 
-// 4. 랜덤 쿼카 가져오기 (Voting)
-function fetchRandomQuokka() {
+// 4. 진짜 DB에서 랜덤 쿼카 가져오기 (Voting)
+async function fetchRandomQuokka() {
   quokkaImg.style.opacity = 0;
   nameEl.style.opacity = 0.5;
 
-  setTimeout(() => {
-    const randomIndex = Math.floor(Math.random() * quokkaDatabase.length);
-    const quokka = quokkaDatabase[randomIndex];
+  try {
+      // Supabase에서 데이터 가져오기 (랜덤 정렬은 아니지만, 일단 전체 목록 가져옴)
+      // *실제 서비스에서는 랜덤 함수(RPC)를 쓰는 게 좋지만 여기선 간단하게 구현
+      const { data, error } = await _supabase
+        .from('quokkas')
+        .select('*');
 
-    quokkaImg.src = quokka.url;
-    quokkaImg.alt = quokka.alt;
+      if (error) throw error;
+      
+      // 클라이언트에서 랜덤 선택
+      const randomIndex = Math.floor(Math.random() * data.length);
+      const quokka = data[randomIndex];
+
+      // UI 업데이트
+      updateQuokkaUI(quokka);
+
+  } catch (err) {
+      console.error("데이터 가져오기 실패:", err);
+      alert("쿼카를 불러오지 못했습니다 ㅠㅠ");
+  }
+}
+
+function updateQuokkaUI(quokka) {
+    quokkaImg.src = quokka.image_url;
     quokkaImg.style.opacity = 1;
 
     nameEl.textContent = quokka.name;
@@ -87,46 +82,57 @@ function fetchRandomQuokka() {
     // 성격 태그
     tagsContainer.appendChild(createTag(quokka.personality, "personality"));
     
-    // 좋아하는 것 태그 (최대 2개)
-    quokka.likes.slice(0, 2).forEach(like => {
-        tagsContainer.appendChild(createTag(like, "like"));
-    });
+    // 좋아요 수 태그 (likes는 배열이 아니라 숫자이므로 다르게 처리)
+    if (quokka.likes > 0) {
+        tagsContainer.appendChild(createTag(`❤️ ${quokka.likes}`, "like"));
+    }
     
     resetLoveBtn();
-  }, 200);
 }
 
-// 5. 쿼카 검색 필터링 (Breeds)
-function filterQuokkas() {
+
+// 5. 진짜 DB에서 쿼카 검색 필터링 (Breeds)
+async function filterQuokkas() {
     const selectedPersonality = personalityFilter.value;
-    searchResults.innerHTML = ""; // 기존 결과 초기화
+    searchResults.innerHTML = '<div style="text-align:center; padding: 2rem;">로딩 중...</div>';
 
-    // 필터링
-    const filtered = quokkaDatabase.filter(q => {
-        if (selectedPersonality === "all") return true;
-        return q.personality === selectedPersonality;
-    });
+    try {
+        let query = _supabase.from('quokkas').select('*');
 
-    if (filtered.length === 0) {
-        searchResults.innerHTML = `<div style="text-align:center; padding: 2rem; color: #888;">검색 결과가 없습니다.</div>`;
-        return;
+        if (selectedPersonality !== "all") {
+            query = query.eq('personality', selectedPersonality);
+        }
+
+        const { data: filtered, error } = await query;
+        if (error) throw error;
+
+        searchResults.innerHTML = ""; // 초기화
+
+        if (!filtered || filtered.length === 0) {
+            searchResults.innerHTML = `<div style="text-align:center; padding: 2rem; color: #888;">검색 결과가 없습니다.</div>`;
+            return;
+        }
+
+        // 결과 렌더링
+        filtered.forEach(quokka => {
+            const item = document.createElement("div");
+            item.className = "search-item";
+            item.style.cssText = "display: flex; align-items: center; gap: 1rem; padding: 10px; border: 1px solid #eee; border-radius: 8px; background: #fff;";
+
+            item.innerHTML = `
+                <img src="${quokka.image_url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
+                <div>
+                    <div style="font-weight: bold; font-size: 0.95rem;">${quokka.name}</div>
+                    <div style="font-size: 0.8rem; color: #666;">${quokka.personality} · ${quokka.location}</div>
+                </div>
+            `;
+            searchResults.appendChild(item);
+        });
+
+    } catch (err) {
+        console.error("검색 실패:", err);
+        searchResults.innerHTML = `<div style="text-align:center; color: red;">오류가 발생했습니다.</div>`;
     }
-
-    // 결과 렌더링
-    filtered.forEach(quokka => {
-        const item = document.createElement("div");
-        item.className = "search-item"; // CSS 추가 필요
-        item.style.cssText = "display: flex; align-items: center; gap: 1rem; padding: 10px; border: 1px solid #eee; border-radius: 8px; background: #fff;";
-
-        item.innerHTML = `
-            <img src="${quokka.url}" style="width: 60px; height: 60px; object-fit: cover; border-radius: 6px;">
-            <div>
-                <div style="font-weight: bold; font-size: 0.95rem;">${quokka.name}</div>
-                <div style="font-size: 0.8rem; color: #666;">${quokka.personality} · ${quokka.location}</div>
-            </div>
-        `;
-        searchResults.appendChild(item);
-    });
 }
 
 // 6. 헬퍼 함수들
@@ -167,7 +173,10 @@ newQuokkaBtn.addEventListener("click", fetchRandomQuokka);
 loveBtn.addEventListener("click", toggleLove);
 personalityFilter.addEventListener("change", filterQuokkas);
 
-// 전역 함수로 등록 (HTML onclick에서 쓰기 위함)
+// 전역 함수로 등록
 window.switchTab = switchTab;
 
-console.log("The Quokka API v2.0 Started...");
+// 초기 데이터 로드 (첫 화면용)
+fetchRandomQuokka();
+
+console.log("The Quokka API v3.0 (Supabase Connected) Started...");
