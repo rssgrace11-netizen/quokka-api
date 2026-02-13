@@ -7,6 +7,9 @@ const API_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 const { createClient } = supabase;
 const _supabase = createClient(PROJECT_URL, API_KEY);
 
+// 현재 보고 있는 쿼카 정보를 저장할 변수
+let currentQuokka = null;
+
 // 2. 요소 선택: Voting 섹션
 const voteSection = document.getElementById("vote-section");
 const breedsSection = document.getElementById("breeds-section");
@@ -59,6 +62,9 @@ async function fetchRandomQuokka() {
       // 클라이언트에서 랜덤 선택
       const randomIndex = Math.floor(Math.random() * data.length);
       const quokka = data[randomIndex];
+
+      // 현재 쿼카 저장
+      currentQuokka = quokka;
 
       // UI 업데이트
       updateQuokkaUI(quokka);
@@ -153,19 +159,71 @@ function resetLoveBtn() {
     loveBtn.style.color = "#aaa";
 }
 
-function toggleLove() {
+async function toggleLove() {
+  if (!currentQuokka) return; // 쿼카 정보가 없으면 실행 안 함
+
   const icon = loveBtn.querySelector("i");
   const isLoved = icon.classList.contains("fa-solid");
 
   if (isLoved) {
-    icon.classList.remove("fa-solid", "text-red-500");
-    icon.classList.add("fa-regular");
-    loveBtn.style.color = "#aaa";
-  } else {
-    icon.classList.remove("fa-regular");
-    icon.classList.add("fa-solid");
-    loveBtn.style.color = "#ff6b6b"; 
+    // 이미 좋아요를 누른 상태라면 취소 (선택 사항: 여기서는 취소 기능은 뺄 수도 있음)
+    alert("이미 좋아요를 누르셨습니다! ❤️");
+    return;
   }
+
+  // UI 먼저 업데이트 (반응 속도 빠르게 하기 위해)
+  icon.classList.remove("fa-regular");
+  icon.classList.add("fa-solid");
+  loveBtn.style.color = "#ff6b6b"; 
+  
+  // 좋아요 숫자 1 증가시키기
+  const newLikes = (currentQuokka.likes || 0) + 1;
+
+  try {
+      // Supabase에 업데이트 요청 보내기
+      const { error } = await _supabase
+        .from('quokkas')
+        .update({ likes: newLikes })
+        .eq('id', currentQuokka.id);
+
+      if (error) throw error;
+
+      // 성공하면 현재 데이터도 업데이트
+      currentQuokka.likes = newLikes;
+      
+      // 태그 업데이트 (숫자 반영)
+      updateLikeTag(newLikes);
+      
+      console.log("좋아요 반영 완료! 현재:", newLikes);
+
+  } catch (err) {
+      console.error("좋아요 실패:", err);
+      alert("좋아요 반영에 실패했습니다 ㅠㅠ");
+      
+      // UI 원상복구
+      icon.classList.remove("fa-solid");
+      icon.classList.add("fa-regular");
+      loveBtn.style.color = "#aaa";
+  }
+}
+
+// 좋아요 태그만 쏙 업데이트하는 함수
+function updateLikeTag(count) {
+    // 기존 좋아요 태그 찾기
+    const tags = tagsContainer.querySelectorAll(".tag");
+    let likeTag = null;
+    
+    tags.forEach(tag => {
+        if (tag.textContent.includes("❤️")) {
+            likeTag = tag;
+        }
+    });
+
+    if (likeTag) {
+        likeTag.textContent = `❤️ ${count}`;
+    } else {
+        tagsContainer.appendChild(createTag(`❤️ ${count}`, "like"));
+    }
 }
 
 // 7. 이벤트 리스너 연결
