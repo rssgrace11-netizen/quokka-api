@@ -279,14 +279,14 @@ async function handleUpload() {
         const fileName = `${Date.now()}_${file.name}`;
         
         const { data: uploadData, error: uploadError } = await _supabase.storage
-            .from('images')
+            .from('quokka_images')
             .upload(fileName, file);
 
         if (uploadError) throw uploadError;
 
         // 2. 이미지 URL 가져오기
         const { data: { publicUrl } } = _supabase.storage
-            .from('images')
+            .from('quokka_images')
             .getPublicUrl(fileName);
 
         // 3. Database에 정보 저장
