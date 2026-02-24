@@ -1,334 +1,334 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap');
 
+
+
 :root {
+
     --text-primary: #4a4036; /* 진한 갈색 (텍스트) */
+
     --text-secondary: #8c7b6c; /* 연한 갈색 */
+
     --highlight-color: #aed581; /* 연한 녹색 (하이라이트) */
+
     --background: #fdfcf5; /* 따뜻한 베이지 배경 */
+
     --card-bg: #fff;
+
     --accent-red: #ff6b6b;
+
     --accent-green: #8bc34a; /* 쿼카 서식지 느낌 녹색 */
+
     --border: #e8e4dc;
+
     --btn-primary: #6d4c41; /* 버튼 갈색 */
+
 }
+
+
 
 * {
+
     margin: 0;
+
     padding: 0;
+
     box-sizing: border-box;
+
     font-family: 'Montserrat', sans-serif;
+
 }
+
+
 
 body {
+
     background-color: var(--background);
+
     color: var(--text-primary);
+
     min-height: 100vh;
+
     display: flex;
+
     flex-direction: column;
+
 }
+
+
 
 /* 1. Navbar */
+
 .navbar {
+
     display: flex;
+
     justify-content: space-between;
+
     align-items: center;
+
     padding: 1.5rem 3rem;
+
     background: white;
+
 }
+
+
 
 .logo {
+
     display: flex;
+
     align-items: center;
+
     font-weight: 800;
+
     font-size: 1.4rem;
+
     gap: 0.8rem;
+
     color: #795548; /* 로고 갈색 */
+
 }
+
+
 
 .logo span {
+
     color: var(--text-primary);
+
 }
+
+
 
 .nav-links {
+
     display: flex;
+
     gap: 2rem;
+
     list-style: none;
+
 }
+
+
 
 .nav-links a {
+
     text-decoration: none;
+
     color: var(--text-secondary);
+
     font-weight: 600;
+
     font-size: 0.9rem;
+
     letter-spacing: 0.5px;
+
     transition: color 0.3s;
+
 }
+
+
 
 .nav-links a:hover {
+
     color: var(--text-primary);
+
 }
+
+
 
 .lang-selector {
+
     display: flex;
+
     align-items: center;
+
     gap: 0.5rem;
+
     font-weight: 600;
+
     font-size: 0.9rem;
+
     cursor: pointer;
+
 }
+
+
 
 .mobile-menu-btn {
+
     display: none;
+
     font-size: 1.5rem;
+
     cursor: pointer;
+
 }
+
+
 
 /* 2. Main Hero Section */
+
 .hero-container {
+
     display: flex;
+
     justify-content: center;
+
     align-items: center;
+
     gap: 5rem;
+
     padding: 4rem 10%;
+
     max-width: 1400px;
+
     margin: 0 auto;
+
     width: 100%;
+
 }
+
+
 
 /* 2-1. Left Side: Text */
+
 .hero-text {
+
     flex: 1;
+
     max-width: 600px;
+
 }
+
+
 
 .main-title {
+
     font-size: 4rem;
+
     font-weight: 900;
+
     line-height: 1.1;
+
     color: var(--text-primary);
+
     margin-bottom: 1.5rem;
+
     position: relative;
+
     z-index: 10;
+
 }
+
 /* 'Quokkas' 하이라이트 효과 */
+
 .highlight {
+
     position: relative;
+
     display: inline-block;
+
 }
+
+
 
 .highlight::after {
+
     content: '';
+
     position: absolute;
+
     bottom: 5px;
+
     left: 0;
+
     width: 100%;
+
     height: 40%;
+
     background-color: var(--highlight-color);
+
     z-index: -1;
+
     border-radius: 4px; /* 살짝 둥근 모서리 */
+
 }
+
+
 
 .tagline {
+
     font-size: 1.5rem;
+
     font-weight: 700;
+
     margin-bottom: 0.5rem;
+
     color: var(--text-primary);
+
 }
+
+
 
 .sub-desc {
+
     font-size: 1.1rem;
+
     line-height: 1.6;
+
     color: var(--text-secondary);
+
     margin-bottom: 3rem;
+
 }
+
+
 
 /* Buttons */
+
 .cta-buttons {
+
     display: flex;
+
     gap: 1.5rem;
+
 }
+
+
 
 .btn {
+
     padding: 1rem 2rem;
+
     font-weight: 700;
+
     font-size: 0.9rem;
+
     cursor: pointer;
+
     text-transform: uppercase;
+
     letter-spacing: 1px;
+
     border: 2px solid var(--text-primary);
+
     border-radius: 8px; /* 약간 둥글게 */
+
     transition: all 0.3s;
+
 }
+
+
 
 .btn-black {
+
     background-color: var(--text-primary);
+
     color: #fff8e1; /* 아주 연한 베이지 텍스트 */
-    border-color: var(--text-primary);
-}
-
-.btn-black:hover {
-    background-color: #3e332a;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(74, 64, 54, 0.2);
-}
-
-.btn-white {
-    background-color: transparent;
-    color: var(--text-primary);
-    border-color: var(--text-primary);
-}
-
-.btn-white:hover {
-    background-color: #efebe9;
-    color: var(--text-primary);
-}
-
-
-/* 3. Right Side: Voting Card */
-.hero-card {
-    flex: 1;
-    display: flex;
-    justify-content: center;
-}
-
-.card-box {
-    width: 100%;
-    max-width: 450px;
-    background: white;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    overflow: hidden;
-    border: 1px solid #eee;
-}
-
-/* Card Tabs */
-.card-tabs {
-    display: flex;
-    justify-content: space-around;
-    padding: 1rem 0;
-    border-bottom: 1px solid #f0f0f0;
-}
-
-.tab {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #ccc;
-    font-weight: 600;
-    font-size: 0.8rem;
-    cursor: pointer;
-    transition: color 0.3s;
-    gap: 0.3rem;
-}
-
-.tab i {
-    font-size: 1.2rem;
-}
-
-.tab.active {
-    color: #ff6b6b; /* 활성화된 탭 색상 (빨강 계열) */
-}
-
-/* Card Image */
-.card-image-wrapper {
-    width: 100%;
-    height: 350px;
-    background-color: #f9f9f9;
-    overflow: hidden;
-    position: relative;
-}
-
-.card-image-wrapper img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 0.3s ease;
-}
-
-/* Card Actions */
-.card-actions {
-    padding: 1rem 1.5rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 1.5rem;
-    color: #aaa;
-    transition: color 0.3s, transform 0.2s;
-}
-
-.action-btn:hover {
-    transform: scale(1.1);
-}
-
-.love:hover { color: var(--accent-red); }
-.up:hover { color: var(--accent-green); }
-.down:hover { color: var(--text-secondary); }
-
-.vote-buttons {
-    display: flex;
-    gap: 1.5rem;
-}
-
-
-/* Responsive */
-@media (max-width: 1024px) {
-    .hero-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 3rem;
-        padding-top: 2rem;
-    }
-
-    .hero-text {
-        width: 100%;
-    }
-
-    .cta-buttons {
-        justify-content: center;
-    }
-
-    .nav-links {
-        display: none; /* 모바일 메뉴 숨김 */
-    }
-
-    .mobile-menu-btn {
-        display: block;
-    }
-    
-    .main-title {
-        font-size: 3rem;
-    }
-}
-/* Quokka Info Section inside Card */
-.quokka-info {
-    padding: 1rem 1.5rem 0.5rem 1.5rem;
-    text-align: left;
-}
-
-.quokka-name {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    margin-bottom: 0.3rem;
-}
-
-.quokka-detail {
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    margin-bottom: 0.8rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
 .quokka-detail i {
-    color: var(--accent-green); /* ?�치 ?�이�??�색 */
+    color: var(--accent-green); /* 위치 아이콘 녹색 */
 }
 
 .quokka-tags {
@@ -338,10 +338,41 @@ body {
 }
 
 .tag {
-    background-color: #f0f4c3; /* ?�한 ?�임??배경 */
-    color: #558b2f; /* 진한 ?�색 ?�스??*/
+    background-color: #f0f4c3; /* 연한 라임색 배경 */
+    color: #558b2f; /* 진한 녹색 텍스트 */
     padding: 4px 10px;
     border-radius: 20px;
     font-size: 0.75rem;
     font-weight: 700;
+}
+
+/* 4. 하단 탭 설정 (My Page 추가) */
+.card-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+}
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #888;
+    transition: all 0.2s;
+}
+.tab:hover {
+    background-color: #f9f9f9;
+    color: #333;
+}
+.tab.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
+    font-weight: bold;
+    background-color: #fff;
+}
+.tab i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
 }

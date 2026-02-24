@@ -1,0 +1,31 @@
+
+/* 4개의 탭을 위한 강제 스타일 적용 (My Page 추가됨) */
+.card-tabs {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important; 
+}
+.tab {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #888;
+    transition: all 0.2s;
+}
+.tab:hover {
+    background-color: #f9f9f9;
+    color: #333;
+}
+.tab.active {
+    color: var(--text-primary);
+    border-bottom: 2px solid var(--text-primary);
+    font-weight: bold;
+    background-color: #fff;
+}
+.tab i {
+    font-size: 1.2rem;
+    margin-bottom: 4px;
+}

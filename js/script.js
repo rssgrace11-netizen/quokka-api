@@ -1,5 +1,6 @@
 import { 
-    newQuokkaBtn, loveBtn, personalityFilter, tabVoting, tabBreeds, tabUpload, 
+    newQuokkaBtn, loveBtn, personalityFilter, 
+    tabVoting, tabBreeds, tabUpload, tabMypage, // tabMypage 추가
     uploadArea, fileInput, uploadBtn 
 } from './modules/dom.js';
 
@@ -19,6 +20,7 @@ personalityFilter.addEventListener("change", filterQuokkas);
 tabVoting.addEventListener("click", () => switchTab('voting'));
 tabBreeds.addEventListener("click", () => switchTab('breeds'));
 tabUpload.addEventListener("click", () => switchTab('upload'));
+tabMypage.addEventListener("click", () => switchTab('mypage')); // My Page 연결 추가!
 
 // 3. 업로드 관련 이벤트
 uploadArea.addEventListener("click", () => fileInput.click());

@@ -1,7 +1,8 @@
 import { 
-    voteSection, breedsSection, uploadSection, tabVoting, tabBreeds, tabUpload 
+    voteSection, breedsSection, uploadSection, mypageSection,
+    tabVoting, tabBreeds, tabUpload, tabMypage 
 } from './dom.js';
-import { filterQuokkas } from './quokka.js';
+import { filterQuokkas, loadMyQuokkas } from './quokka.js';
 
 // 3. 탭 전환 기능
 export function switchTab(tabName) {
@@ -9,10 +10,12 @@ export function switchTab(tabName) {
     voteSection.style.display = 'none';
     breedsSection.style.display = 'none';
     uploadSection.style.display = 'none';
+    mypageSection.style.display = 'none';
     
     tabVoting.classList.remove('active');
     tabBreeds.classList.remove('active');
     tabUpload.classList.remove('active');
+    tabMypage.classList.remove('active');
 
     if (tabName === 'voting') {
         voteSection.style.display = 'block';
@@ -24,5 +27,9 @@ export function switchTab(tabName) {
     } else if (tabName === 'upload') {
         uploadSection.style.display = 'block';
         tabUpload.classList.add('active');
+    } else if (tabName === 'mypage') {
+        mypageSection.style.display = 'block';
+        tabMypage.classList.add('active');
+        loadMyQuokkas(); // 내 쿼카 목록 불러오기 (곧 만들 예정)
     }
 }

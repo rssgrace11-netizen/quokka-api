@@ -25,6 +25,11 @@ export const uploadName = document.getElementById("upload-name");
 export const uploadPersonality = document.getElementById("upload-personality");
 export const uploadStatus = document.getElementById("upload-status");
 
+// 2-4. 요소 선택: My Page 섹션 (내 쿼카)
+export const mypageSection = document.getElementById("mypage-section");
+export const tabMypage = document.getElementById("tab-mypage");
+export const myQuokkaList = document.getElementById("my-quokka-list");
+
 // 2-3. 요소 선택: Auth (로그인)
 export const accountLink = document.getElementById("account-link");
 export const loginModal = document.getElementById("login-modal");
