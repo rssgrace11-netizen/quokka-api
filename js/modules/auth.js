@@ -1,7 +1,8 @@
 import { _supabase } from './config.js';
 import { currentUser, setState } from './state.js';
 import { 
-    accountLink, loginModal, loginEmail, loginPassword, btnSignIn, btnSignUp, btnCloseModal
+    accountLink, loginModal, loginEmail, loginPassword, btnSignIn, btnSignUp, btnCloseModal,
+    logoutModal, btnConfirmLogout, btnCancelLogout
 } from './dom.js';
 
 // 모달 열기/닫기
@@ -11,9 +12,8 @@ export const initAuthEvents = () => {
         console.log("ACCOUNT/LOGOUT 클릭됨!");
 
         if (currentUser) {
-            if (confirm("정말 로그아웃 하시겠습니까?")) {
-                await handleSignOut();
-            }
+            logoutModal.style.display = "flex";
+            logoutModal.style.zIndex = "99999";
             return;
         }
 
@@ -27,6 +27,16 @@ export const initAuthEvents = () => {
         if (msgEl) msgEl.textContent = "";
     });
 
+    // 로그아웃 모달 이벤트
+    btnCancelLogout.addEventListener("click", () => {
+        logoutModal.style.display = "none";
+    });
+
+    btnConfirmLogout.addEventListener("click", async () => {
+        logoutModal.style.display = "none";
+        await handleSignOut();
+    });
+
     btnSignUp.addEventListener("click", handleSignUp);
     btnSignIn.addEventListener("click", handleSignIn);
     
@@ -35,9 +45,8 @@ export const initAuthEvents = () => {
     if (mobileLoginBtn) {
         mobileLoginBtn.addEventListener("click", async () => {
             if (currentUser) {
-                if (confirm("정말 로그아웃 하시겠습니까?")) {
-                    await handleSignOut();
-                }
+                logoutModal.style.display = "flex";
+                logoutModal.style.zIndex = "99999";
                 return;
             }
             loginModal.style.display = "flex";

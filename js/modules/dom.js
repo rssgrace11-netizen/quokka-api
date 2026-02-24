@@ -39,3 +39,8 @@ export const btnSignIn = document.getElementById("btn-signin");
 export const btnSignUp = document.getElementById("btn-signup");
 export const btnCloseModal = document.getElementById("btn-close-modal");
 export const mobileLoginBtn = document.getElementById("mobile-login-btn");
+
+// 2-5. 요소 선택: Auth (로그아웃 모달)
+export const logoutModal = document.getElementById("logout-modal");
+export const btnConfirmLogout = document.getElementById("btn-confirm-logout");
+export const btnCancelLogout = document.getElementById("btn-cancel-logout");
