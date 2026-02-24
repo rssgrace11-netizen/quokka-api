@@ -11,8 +11,9 @@ export const initAuthEvents = () => {
         console.log("ACCOUNT/LOGOUT 클릭됨!");
 
         if (currentUser) {
-            // 로그인 상태이면 바로 로그아웃 시도
-            await handleSignOut();
+            if (confirm("정말 로그아웃 하시겠습니까?")) {
+                await handleSignOut();
+            }
             return;
         }
 
@@ -34,7 +35,9 @@ export const initAuthEvents = () => {
     if (mobileLoginBtn) {
         mobileLoginBtn.addEventListener("click", async () => {
             if (currentUser) {
-                await handleSignOut();
+                if (confirm("정말 로그아웃 하시겠습니까?")) {
+                    await handleSignOut();
+                }
                 return;
             }
             loginModal.style.display = "flex";
