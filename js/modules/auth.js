@@ -6,14 +6,13 @@ import {
 
 // 모달 열기/닫기
 export const initAuthEvents = () => {
-    accountLink.addEventListener("click", (e) => {
+    accountLink.addEventListener("click", async (e) => {
         e.preventDefault(); 
-        console.log("ACCOUNT 클릭됨!");
+        console.log("ACCOUNT/LOGOUT 클릭됨!");
 
         if (currentUser) {
-            if(confirm("로그아웃 하시겠습니까?")) {
-                handleSignOut();
-            }
+            // 로그인 상태이면 바로 로그아웃 시도
+            await handleSignOut();
             return;
         }
 
@@ -33,11 +32,9 @@ export const initAuthEvents = () => {
     // 모바일 로그인 버튼도 있으면 연결
     const mobileLoginBtn = document.getElementById("mobile-login-btn");
     if (mobileLoginBtn) {
-        mobileLoginBtn.addEventListener("click", () => {
+        mobileLoginBtn.addEventListener("click", async () => {
             if (currentUser) {
-                if(confirm("로그아웃 하시겠습니까?")) {
-                    handleSignOut();
-                }
+                await handleSignOut();
                 return;
             }
             loginModal.style.display = "flex";
