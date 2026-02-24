@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pricing - The Quokka API</title>
+    <link rel="stylesheet" href="css/style.css?v=5" />
+    <link rel="stylesheet" href="css/style_patch.css?v=5" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      .pricing-container {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .pricing-title {
+        font-size: 2.5rem;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-weight: 800;
+      }
+      .pricing-subtitle {
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
+      }
+      .pricing-cards {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+      }
+      .price-card {
+        background: var(--card-bg);
+        border: 2px solid var(--border);
+        border-radius: 20px;
+        padding: 2.5rem 2rem;
+        width: 320px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+      .price-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+      }
+      .price-card.popular {
+        border-color: var(--highlight-color);
+        box-shadow: 0 10px 25px rgba(174, 213, 129, 0.3);
+      }
+      .popular-badge {
+        position: absolute;
+        top: 20px;
+        right: -35px;
+        background: var(--highlight-color);
+        color: #33691e;
+        padding: 5px 40px;
+        transform: rotate(45deg);
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+      }
+      .card-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: var(--btn-primary);
+      }
+      .tier-name {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+      .price {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+      }
+      .price span {
+        font-size: 1rem;
+        color: var(--text-secondary);
+        font-weight: 500;
+      }
+      .features {
+        list-style: none;
+        text-align: left;
+        margin-bottom: 2rem;
+      }
+      .features li {
+        margin-bottom: 1rem;
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .features li i {
+        color: var(--highlight-color);
+      }
+      .btn-plan {
+        width: 100%;
+        padding: 12px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: all 0.3s;
+        border: 2px solid var(--btn-primary);
+      }
+      .btn-outline {
+        background: transparent;
+        color: var(--btn-primary);
+      }
+      .btn-outline:hover {
+        background: var(--btn-primary);
+        color: white;
+      }
+      .btn-solid {
+        background: var(--btn-primary);
+        color: white;
+      }
+      .btn-solid:hover {
+        background: #5d4037;
+      }
+      .btn-plan:active {
+        transform: scale(0.98);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. 상단 내비게이션 -->
+    <nav class="navbar">
+      <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
+        <i class="fa-solid fa-paw logo-icon"></i>
+        <span>TheQuokkaAPI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="pricing.html" style="color: var(--text-primary); font-weight: bold;">PRICING</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="documentation.html">DOCUMENTATION</a></li>
+        <li><a href="quokkas.html">QUOKKAS</a></li>
+      </ul>
+      <div class="lang-selector">
+        <span>EN</span> <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="mobile-menu-btn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Pricing Content -->
+    <main class="pricing-container">
+      <h1 class="pricing-title">Simple. Transparent. 🐹</h1>
+      <p class="pricing-subtitle">Pick the perfect plan for your daily dose of smiles.</p>
+
+      <div class="pricing-cards">
+        
+        <!-- Seed Tier -->
+        <div class="price-card">
+          <i class="fa-solid fa-seedling card-icon" style="color: #8d6e63;"></i>
+          <h2 class="tier-name">Seed Tier</h2>
+          <div class="price">Free<span> / month</span></div>
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> 100 API Calls / day</li>
+            <li><i class="fa-solid fa-check"></i> Random Quokka Images</li>
+            <li><i class="fa-solid fa-check"></i> Standard Resolution</li>
+            <li style="opacity: 0.5;"><i class="fa-solid fa-xmark"></i> Filter by Personality</li>
+          </ul>
+          <button class="btn-plan btn-outline">Start for free</button>
+        </div>
+
+        <!-- Leaf Tier (Popular) -->
+        <div class="price-card popular">
+          <div class="popular-badge">POPULAR</div>
+          <i class="fa-solid fa-leaf card-icon" style="color: var(--highlight-color);"></i>
+          <h2 class="tier-name">Leaf Tier</h2>
+          <div class="price">$5<span> / month</span></div>
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> 10,000 API Calls / day</li>
+            <li><i class="fa-solid fa-check"></i> High-Res Quokka Images</li>
+            <li><i class="fa-solid fa-check"></i> Filter by Personality & Location</li>
+            <li><i class="fa-solid fa-check"></i> Priority Email Support</li>
+          </ul>
+          <button class="btn-plan btn-solid">Get Leaf Tier</button>
+        </div>
+
+        <!-- Hug Tier -->
+        <div class="price-card">
+          <i class="fa-solid fa-hands-holding-child card-icon" style="color: var(--accent-red);"></i>
+          <h2 class="tier-name">Hug Tier</h2>
+          <div class="price">$15<span> / month</span></div>
+          <ul class="features">
+            <li><i class="fa-solid fa-check"></i> Unlimited API Calls</li>
+            <li><i class="fa-solid fa-check"></i> 4K Ultra-Res Quokkas</li>
+            <li><i class="fa-solid fa-check"></i> Webhook Integrations</li>
+            <li><i class="fa-solid fa-check"></i> 24/7 Premium Support</li>
+          </ul>
+          <button class="btn-plan btn-outline">Embrace Hug Tier</button>
+        </div>
+
+      </div>
+    </main>
+
+  </body>
+</html>

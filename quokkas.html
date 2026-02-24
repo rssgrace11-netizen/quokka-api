@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meet the Quokkas - The Quokka API</title>
+    <link rel="stylesheet" href="css/style.css?v=5" />
+    <link rel="stylesheet" href="css/style_patch.css?v=5" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      .gallery-container {
+        padding: 4rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .gallery-title {
+        font-size: 2.8rem;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-weight: 900;
+      }
+      .gallery-subtitle {
+        color: var(--text-secondary);
+        margin-bottom: 3rem;
+        font-size: 1.1rem;
+      }
+      .quokka-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 2rem;
+      }
+      .quokka-profile {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+      }
+      .quokka-profile:hover {
+        transform: translateY(-8px);
+      }
+      .profile-img {
+        width: 100%;
+        height: 250px;
+        object-fit: cover;
+      }
+      .profile-info {
+        padding: 1.5rem;
+        text-align: left;
+      }
+      .profile-name {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--text-primary);
+        margin-bottom: 0.5rem;
+      }
+      .profile-loc {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+      }
+      .profile-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .ptag {
+        background: #f1f8e9;
+        color: #33691e;
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. 상단 내비게이션 -->
+    <nav class="navbar">
+      <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
+        <i class="fa-solid fa-paw logo-icon"></i>
+        <span>TheQuokkaAPI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="pricing.html">PRICING</a></li>
+        <li><a href="business.html">BUSINESS</a></li>
+        <li><a href="documentation.html">DOCUMENTATION</a></li>
+        <li><a href="quokkas.html" style="color: var(--text-primary); font-weight: bold;">QUOKKAS</a></li>
+      </ul>
+      <div class="lang-selector">
+        <span>EN</span> <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="mobile-menu-btn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Content -->
+    <main class="gallery-container">
+      <h1 class="gallery-title">Meet the Stars 📸</h1>
+      <p class="gallery-subtitle">Browse through some of our most famous, happy little friends.</p>
+
+      <div class="quokka-grid">
+        
+        <div class="quokka-profile">
+          <img src="images/Quokka.jpg" alt="Happy Quokka" class="profile-img">
+          <div class="profile-info">
+            <h3 class="profile-name">Bob</h3>
+            <div class="profile-loc"><i class="fa-solid fa-location-dot"></i> Rottnest Island</div>
+            <div class="profile-tags">
+              <span class="ptag">명랑함</span>
+              <span class="ptag">포토제닉</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quokka-profile">
+          <img src="images/Quokka.jpg" alt="Curious Quokka" class="profile-img" style="filter: hue-rotate(15deg);">
+          <div class="profile-info">
+            <h3 class="profile-name">Charlie</h3>
+            <div class="profile-loc"><i class="fa-solid fa-location-dot"></i> Perth Zoo</div>
+            <div class="profile-tags">
+              <span class="ptag">호기심 대장</span>
+              <span class="ptag">먹보</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quokka-profile">
+          <img src="images/Quokka.jpg" alt="Sleepy Quokka" class="profile-img" style="filter: sepia(0.3) contrast(1.1);">
+          <div class="profile-info">
+            <h3 class="profile-name">Daisy</h3>
+            <div class="profile-loc"><i class="fa-solid fa-location-dot"></i> Wadjemup</div>
+            <div class="profile-tags">
+              <span class="ptag">잠보</span>
+              <span class="ptag">애교쟁이</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="quokka-profile">
+          <img src="images/Quokka.jpg" alt="Explorer Quokka" class="profile-img" style="filter: brightness(1.1) saturate(1.2);">
+          <div class="profile-info">
+            <h3 class="profile-name">Eddie</h3>
+            <div class="profile-loc"><i class="fa-solid fa-location-dot"></i> Setts Beach</div>
+            <div class="profile-tags">
+              <span class="ptag">탐험가</span>
+              <span class="ptag">활발함</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+  </body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Business - The Quokka API</title>
+    <link rel="stylesheet" href="css/style.css?v=5" />
+    <link rel="stylesheet" href="css/style_patch.css?v=5" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+      .business-hero {
+        background: linear-gradient(135deg, #fdfcf5 0%, #f1f8e9 100%);
+        padding: 6rem 2rem;
+        text-align: center;
+        border-bottom: 2px solid var(--border);
+      }
+      .business-title {
+        font-size: 3rem;
+        color: var(--text-primary);
+        margin-bottom: 1.5rem;
+        font-weight: 900;
+        line-height: 1.2;
+      }
+      .business-subtitle {
+        color: var(--text-secondary);
+        font-size: 1.2rem;
+        max-width: 600px;
+        margin: 0 auto 3rem auto;
+        line-height: 1.6;
+      }
+      .business-features {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 3rem;
+        max-width: 1200px;
+        margin: 4rem auto;
+        padding: 0 2rem;
+      }
+      .feature-box {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        border: 1px solid var(--border);
+      }
+      .feature-icon-wrapper {
+        width: 80px;
+        height: 80px;
+        background: #fdfcf5;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem auto;
+        font-size: 2rem;
+        color: var(--btn-primary);
+        border: 2px dashed var(--highlight-color);
+      }
+      .feature-box h3 {
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+        font-weight: 700;
+      }
+      .feature-box p {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+      }
+      .contact-sales {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: #4a4036;
+        color: white;
+        margin-top: 4rem;
+      }
+      .contact-sales h2 {
+        color: white;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+      }
+      .contact-sales p {
+        color: #ddd;
+        margin-bottom: 2rem;
+      }
+      .btn-sales {
+        background: var(--highlight-color);
+        color: #33691e;
+        padding: 15px 40px;
+        border: none;
+        border-radius: 30px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+      }
+      .btn-sales:hover {
+        background: #9ccc65;
+        transform: translateY(-3px);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 1. 상단 내비게이션 -->
+    <nav class="navbar">
+      <a href="index.html" class="logo" style="text-decoration: none; color: inherit;">
+        <i class="fa-solid fa-paw logo-icon"></i>
+        <span>TheQuokkaAPI</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="pricing.html">PRICING</a></li>
+        <li><a href="business.html" style="color: var(--text-primary); font-weight: bold;">BUSINESS</a></li>
+        <li><a href="documentation.html">DOCUMENTATION</a></li>
+        <li><a href="quokkas.html">QUOKKAS</a></li>
+      </ul>
+      <div class="lang-selector">
+        <span>EN</span> <i class="fa-solid fa-chevron-down"></i>
+      </div>
+      <div class="mobile-menu-btn">
+        <i class="fa-solid fa-bars"></i>
+      </div>
+    </nav>
+
+    <!-- Business Hero -->
+    <header class="business-hero">
+      <h1 class="business-title">Quokkas in the<br>Workplace. 💼🐹</h1>
+      <p class="business-subtitle">Boost your team's morale and productivity with enterprise-grade Quokka delivery systems. Let the happiest animals on earth improve your product.</p>
+    </header>
+
+    <!-- Features -->
+    <section class="business-features">
+      <div class="feature-box">
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-briefcase"></i>
+        </div>
+        <h3>Corporate Licenses</h3>
+        <p>Legally cleared and commercially licensed Quokka imagery for your massive marketing campaigns and products.</p>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-server"></i>
+        </div>
+        <h3>Dedicated Servers</h3>
+        <p>Your own private Quokka infrastructure. Zero rate limits, 99.99% Guaranteed Uptime, and blazing fast response times.</p>
+      </div>
+
+      <div class="feature-box">
+        <div class="feature-icon-wrapper">
+          <i class="fa-solid fa-headset"></i>
+        </div>
+        <h3>White-Glove Support</h3>
+        <p>A dedicated Account Manager and a 24/7 engineering hotline to ensure your Quokkas are always smiling.</p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="contact-sales">
+      <h2>Ready to go Enterprise? 🌿</h2>
+      <p>Talk to our sales team to custom-tailor a Quokka plan for your exact needs.</p>
+      <button class="btn-sales">CONTACT SALES</button>
+    </section>
+
+  </body>
+</html>
