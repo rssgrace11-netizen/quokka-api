@@ -23,6 +23,8 @@ export const initAuthEvents = () => {
 
     btnCloseModal.addEventListener("click", () => {
         loginModal.style.display = "none";
+        const msgEl = document.getElementById("auth-message");
+        if (msgEl) msgEl.textContent = "";
     });
 
     btnSignUp.addEventListener("click", handleSignUp);
@@ -59,13 +61,15 @@ export function updateAccountUI() {
 async function handleSignUp() {
     const email = loginEmail.value;
     const password = loginPassword.value;
+    const msgEl = document.getElementById("auth-message");
 
     if (!email || !password) {
-        alert("이메일과 비밀번호를 입력해주세요.");
+        if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = "이메일과 비밀번호를 입력해주세요."; }
         return;
     }
 
     try {
+        if (msgEl) { msgEl.style.color = "#666"; msgEl.textContent = "가입 중..."; }
         const { data, error } = await _supabase.auth.signUp({
             email: email,
             password: password,
@@ -73,11 +77,11 @@ async function handleSignUp() {
 
         if (error) throw error;
 
-        alert("회원가입 성공! 🎉\n이제 로그인 버튼을 눌러주세요.");
+        if (msgEl) { msgEl.style.color = "#4caf50"; msgEl.textContent = "회원가입 성공! 🎉 이제 로그인 버튼을 눌러주세요."; }
         
     } catch (err) {
         console.error("회원가입 에러:", err);
-        alert("회원가입 실패: " + err.message);
+        if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = "가입 실패: " + (err.message === "User already registered" ? "이미 가입된 이메일입니다." : err.message); }
     }
 }
 
@@ -85,8 +89,15 @@ async function handleSignUp() {
 async function handleSignIn() {
     const email = loginEmail.value;
     const password = loginPassword.value;
+    const msgEl = document.getElementById("auth-message");
+
+    if (!email || !password) {
+        if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = "이메일과 비밀번호를 입력해주세요."; }
+        return;
+    }
 
     try {
+        if (msgEl) { msgEl.style.color = "#666"; msgEl.textContent = "로그인 중..."; }
         const { data, error } = await _supabase.auth.signInWithPassword({
             email: email,
             password: password,
@@ -98,14 +109,14 @@ async function handleSignIn() {
         setState('currentUser', data.user);
         updateAccountUI(); 
         loginModal.style.display = "none"; 
-        alert(`환영합니다! ${email.split('@')[0]}님 👋`);
         
+        if (msgEl) msgEl.textContent = "";
         loginEmail.value = "";
         loginPassword.value = "";
 
     } catch (err) {
         console.error("로그인 에러:", err);
-        alert("로그인 실패: 이메일이나 비밀번호를 확인해주세요.");
+        if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = "로그인 실패: 이메일이나 비밀번호를 확인해주세요."; }
     }
 }
 
