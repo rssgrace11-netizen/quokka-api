@@ -97,6 +97,9 @@
     padding: 10px 20px 20px 20px !important;
     position: relative;
     z-index: 5 !important;
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* 이름, 사는 곳, 성격 사이 5px 간격 추가 */
 }
 
 /* 액션 버튼 영역 개선 (하트, 따봉 등) */
