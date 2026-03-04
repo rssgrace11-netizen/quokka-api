@@ -181,12 +181,9 @@
 }
 
 .main-title .highlight {
-    background: linear-gradient(45deg, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
     display: inline-block;
     transition: transform 0.3s bounce;
+    color: var(--text-primary); /* 글씨 색상을 일반 텍스트 색상과 동일하게 맞춤 */
 }
 
 .main-title .highlight:hover {
