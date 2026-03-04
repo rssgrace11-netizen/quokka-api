@@ -225,14 +225,16 @@
 /* 모든 쿼카 사진의 크기를 완벽하게 동일하게 고정 */
 .card-image-wrapper img, 
 .quokka-profile img {
-    width: 100% !important;
-    height: 350px !important;
+    width: 250px !important;
+    height: 250px !important;
     object-fit: cover !important; 
     display: block !important;
+    margin: 0 auto !important; /* 가운데 정렬 */
 }
 
 @media (max-width: 768px) {
     .quokka-profile img {
+        width: 100% !important;
         height: 250px !important;
     }
     .card-actions {
