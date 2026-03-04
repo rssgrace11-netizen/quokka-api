@@ -1,5 +1,5 @@
 import { 
-    newQuokkaBtn, loveBtn, personalityFilter, 
+    newQuokkaBtn, loveBtn, dlBtn, personalityFilter, 
     tabVoting, tabBreeds, tabUpload, tabMypage, 
     uploadArea, fileInput, uploadBtn, previewImg, uploadIcon, uploadText
 } from './modules/dom.js';
@@ -15,6 +15,38 @@ console.log("The Quokka API v5.0 (Modularized) Started...");
 newQuokkaBtn.addEventListener("click", fetchRandomQuokka);
 loveBtn.addEventListener("click", toggleLove);
 personalityFilter.addEventListener("change", filterQuokkas);
+
+// 다운로드 기능
+dlBtn.addEventListener("click", async () => {
+    const quokkaImg = document.getElementById("quokka-img");
+    if (!quokkaImg || !quokkaImg.src) return;
+
+    try {
+        const response = await fetch(quokkaImg.src);
+        const blob = await response.blob();
+        
+        // 원본 이미지를 위한 다운로드 링크 생성
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = `quokka_${Date.now()}.jpg`; // 다운로드 파일명 지정
+        document.body.appendChild(a);
+        a.click();
+        
+        // 정리
+        window.URL.revokeObjectURL(url);
+        document.body.removeChild(a);
+        
+        import('./modules/ui.js').then(({ showToast }) => {
+            showToast("원본 사진이 다운로드되었습니다! 📥", "success");
+        });
+    } catch (err) {
+        console.error("다운로드 에러:", err);
+        import('./modules/ui.js').then(({ showToast }) => {
+            showToast("다운로드에 실패했습니다.", "error");
+        });
+    }
+});
 
 // 2. 탭 전환 이벤트
 tabVoting.addEventListener("click", () => switchTab('voting'));

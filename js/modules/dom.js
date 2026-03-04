@@ -8,6 +8,7 @@ export const quokkaImg = document.getElementById("quokka-img");
 export const loadingSpinner = document.getElementById("loading-spinner");
 export const newQuokkaBtn = document.getElementById("new-quokka-btn");
 export const loveBtn = document.getElementById("love-btn");
+export const dlBtn = document.getElementById("dl-btn");
 export const nameEl = document.getElementById("quokka-name");
 export const locEl = document.getElementById("quokka-location");
 export const tagsContainer = document.querySelector(".quokka-tags");
