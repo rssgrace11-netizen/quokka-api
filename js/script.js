@@ -1,10 +1,11 @@
 import { 
     newQuokkaBtn, loveBtn, dlBtn, personalityFilter, 
     tabVoting, tabBreeds, tabUpload, tabMypage, 
-    uploadArea, fileInput, uploadBtn, previewImg, uploadIcon, uploadText
+    uploadArea, fileInput, uploadBtn, previewImg, uploadIcon, uploadText,
+    prevBtn, nextBtn
 } from './modules/dom.js';
 
-import { fetchRandomQuokka, filterQuokkas, toggleLove } from './modules/quokka.js';
+import { initQuokkas, showNextQuokka, showPrevQuokka, filterQuokkas, toggleLove } from './modules/quokka.js';
 import { handleUpload } from './modules/upload.js';
 import { switchTab } from './modules/ui.js';
 import { checkSession, initAuthEvents } from './modules/auth.js';
@@ -12,7 +13,9 @@ import { checkSession, initAuthEvents } from './modules/auth.js';
 console.log("The Quokka API v5.0 (Modularized) Started...");
 
 // 1. 이벤트 리스너 연결
-newQuokkaBtn.addEventListener("click", fetchRandomQuokka);
+newQuokkaBtn.addEventListener("click", showNextQuokka);
+prevBtn.addEventListener("click", showPrevQuokka);
+nextBtn.addEventListener("click", showNextQuokka);
 loveBtn.addEventListener("click", toggleLove);
 personalityFilter.addEventListener("change", filterQuokkas);
 
@@ -85,4 +88,4 @@ initAuthEvents();
 
 // 5. 앱 시작!
 checkSession();      // 로그인 상태 확인
-fetchRandomQuokka(); // 첫 쿼카 불러오기
+initQuokkas();       // 첫 쿼카 목록 불러오기

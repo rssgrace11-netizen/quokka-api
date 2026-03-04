@@ -140,11 +140,15 @@
 
             <!-- 1. Voting Section (기존 랜덤 쿼카) -->
             <div id="vote-section">
-                <!-- 카드 메인 이미지 -->
+                <!-- 쿼카 사진 영역 -->
                 <div class="card-image-wrapper" style="position: relative;">
                     <div id="loading-spinner" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.8); border-radius: 12px 12px 0 0; z-index: 20;">
                         <i class="fa-solid fa-spinner fa-spin" style="font-size: 3rem; color: #ff6b6b;"></i>
                     </div>
+                    <!-- 네비게이션 화살표 -->
+                    <button id="prev-btn" class="nav-arrow left"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button id="next-btn" class="nav-arrow right"><i class="fa-solid fa-chevron-right"></i></button>
+                    <!-- 이미지 -->
                     <img src="images/Quokka.jpg" alt="Random Quokka" id="quokka-img">
                 </div>
 

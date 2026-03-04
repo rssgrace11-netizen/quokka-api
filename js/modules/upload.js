@@ -3,7 +3,7 @@ import {
     fileInput, uploadName, uploadPersonality, uploadBtn, uploadStatus, uploadArea,
     previewImg, uploadIcon, uploadText
 } from './dom.js';
-import { fetchRandomQuokka } from './quokka.js';
+import { initQuokkas } from './quokka.js';
 import { switchTab, showToast } from './ui.js';
 
 // 8. 이미지 업로드 처리
@@ -57,8 +57,8 @@ export async function handleUpload() {
         uploadIcon.style.display = "block";
         
         switchTab('voting');
-        fetchRandomQuokka(); 
-
+        initQuokkas(); // 배열 새로고침
+        
     } catch (err) {
         console.error("업로드 실패:", err);
         showToast("업로드 중 오류가 발생했습니다 ㅠㅠ", "error");

@@ -1,7 +1,7 @@
 import { _supabase } from './config.js';
 
 
-import { currentQuokka, currentUser, setState } from './state.js'; // currentUser 추가
+import { currentQuokka, currentUser, quokkaList, currentIdx, setState } from './state.js'; 
 
 
 import { createTag, resetLoveBtn } from './utils.js';
@@ -24,7 +24,7 @@ import { showToast } from './ui.js';
 
 
 
-export async function fetchRandomQuokka() {
+export async function initQuokkas() {
   quokkaImg.style.opacity = 0;
   nameEl.style.opacity = 0.5;
   loadingSpinner.style.display = 'flex'; // API 호출 전 스피너 표시
@@ -36,9 +36,13 @@ export async function fetchRandomQuokka() {
 
       if (error) throw error;
       
-      const randomIndex = Math.floor(Math.random() * data.length);
-      const quokka = data[randomIndex];
+      // 배열 무작위로 섞기 (Shuffle)
+      const shuffled = data.sort(() => Math.random() - 0.5);
+      
+      setState('quokkaList', shuffled);
+      setState('currentIdx', 0);
 
+      const quokka = shuffled[0];
       setState('currentQuokka', quokka); // 현재 쿼카 저장
 
       updateQuokkaUI(quokka);
@@ -46,7 +50,38 @@ export async function fetchRandomQuokka() {
   } catch (err) {
       console.error("데이터 가져오기 실패:", err);
       loadingSpinner.style.display = 'none'; // 에러 발생 시 스피너 숨김
+      showToast("데이터를 불러오지 못했습니다.", "error");
   }
+}
+
+export function showNextQuokka() {
+    if (!quokkaList || quokkaList.length === 0) return;
+    
+    quokkaImg.style.opacity = 0;
+    loadingSpinner.style.display = 'flex';
+    
+    let nextIdx = currentIdx + 1;
+    if (nextIdx >= quokkaList.length) nextIdx = 0; // 끝에 도달하면 처음으로
+    
+    setState('currentIdx', nextIdx);
+    const quokka = quokkaList[nextIdx];
+    setState('currentQuokka', quokka);
+    updateQuokkaUI(quokka);
+}
+
+export function showPrevQuokka() {
+    if (!quokkaList || quokkaList.length === 0) return;
+    
+    quokkaImg.style.opacity = 0;
+    loadingSpinner.style.display = 'flex';
+    
+    let prevIdx = currentIdx - 1;
+    if (prevIdx < 0) prevIdx = quokkaList.length - 1; // 처음에 도달하면 끝으로
+    
+    setState('currentIdx', prevIdx);
+    const quokka = quokkaList[prevIdx];
+    setState('currentQuokka', quokka);
+    updateQuokkaUI(quokka);
 }
 
 function updateQuokkaUI(quokka) {
