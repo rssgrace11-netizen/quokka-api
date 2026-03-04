@@ -226,7 +226,7 @@
 .card-image-wrapper img, 
 .quokka-profile img {
     width: 300px !important;
-    height: 400px !important;
+    height: 450px !important;
     object-fit: cover !important; 
     display: block !important;
     margin: 0 auto !important; /* 가운데 정렬 */
@@ -235,7 +235,7 @@
 @media (max-width: 768px) {
     .quokka-profile img {
         width: 100% !important;
-        height: 300px !important;
+        height: 350px !important;
     }
     .card-actions {
         padding: 15px 15px 25px 15px !important;
