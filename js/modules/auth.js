@@ -1,7 +1,7 @@
 import { _supabase } from './config.js';
 import { currentUser, setState } from './state.js';
 import { 
-    accountLink, loginModal, loginEmail, loginPassword, btnSignIn, btnSignUp, btnCloseModal,
+    accountLink, loginModal, loginEmail, loginPassword, btnSignIn, btnSignUp, btnGoogleLogin, btnGithubLogin, btnCloseModal,
     logoutModal, btnConfirmLogout, btnCancelLogout
 } from './dom.js';
 
@@ -39,6 +39,10 @@ export const initAuthEvents = () => {
 
     btnSignUp.addEventListener("click", handleSignUp);
     btnSignIn.addEventListener("click", handleSignIn);
+    
+    // 소셜 로그인 버튼 이벤트
+    if (btnGoogleLogin) btnGoogleLogin.addEventListener("click", () => handleSocialLogin('google'));
+    if (btnGithubLogin) btnGithubLogin.addEventListener("click", () => handleSocialLogin('github'));
     
     // 모바일 로그인 버튼도 있으면 연결
     const mobileLoginBtn = document.getElementById("mobile-login-btn");
@@ -126,6 +130,24 @@ async function handleSignIn() {
     } catch (err) {
         console.error("로그인 에러:", err);
         if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = "로그인 실패: 이메일이나 비밀번호를 확인해주세요."; }
+    }
+}
+
+// 소셜 로그인 처리
+async function handleSocialLogin(provider) {
+    const msgEl = document.getElementById("auth-message");
+    
+    try {
+        if (msgEl) { msgEl.style.color = "#666"; msgEl.textContent = `${provider} 로그인 페이지로 이동합니다...`; }
+        const { data, error } = await _supabase.auth.signInWithOAuth({
+            provider: provider,
+        });
+
+        if (error) throw error;
+        // OAuth의 경우 Supabase가 자동으로 제공자 페이지로 리다이렉트 처리함
+    } catch (err) {
+        console.error(`${provider} 로그인 에러:`, err);
+        if (msgEl) { msgEl.style.color = "#ff6b6b"; msgEl.textContent = `${provider} 로그인에 실패했습니다.`; }
     }
 }
 

@@ -37,6 +37,8 @@ export const loginEmail = document.getElementById("login-email");
 export const loginPassword = document.getElementById("login-password");
 export const btnSignIn = document.getElementById("btn-signin");
 export const btnSignUp = document.getElementById("btn-signup");
+export const btnGoogleLogin = document.getElementById("btn-google-login");
+export const btnGithubLogin = document.getElementById("btn-github-login");
 export const btnCloseModal = document.getElementById("btn-close-modal");
 export const mobileLoginBtn = document.getElementById("mobile-login-btn");
 
