@@ -33,3 +33,23 @@ export function switchTab(tabName) {
         loadMyQuokkas(); // 내 쿼카 목록 불러오기 (곧 만들 예정)
     }
 }
+
+// 4. Toast 알림 띄우기
+export function showToast(message, type = 'info') {
+    import('./dom.js').then(({ toastContainer }) => {
+        if (!toastContainer) return;
+
+        const toast = document.createElement("div");
+        toast.className = `toast-msg ${type}`;
+        toast.textContent = message;
+
+        toastContainer.appendChild(toast);
+
+        // 3초 후 자동 제거
+        setTimeout(() => {
+            if (toastContainer.contains(toast)) {
+                toastContainer.removeChild(toast);
+            }
+        }, 3000);
+    });
+}

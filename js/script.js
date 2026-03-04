@@ -1,7 +1,7 @@
 import { 
     newQuokkaBtn, loveBtn, personalityFilter, 
-    tabVoting, tabBreeds, tabUpload, tabMypage, // tabMypage 추가
-    uploadArea, fileInput, uploadBtn 
+    tabVoting, tabBreeds, tabUpload, tabMypage, 
+    uploadArea, fileInput, uploadBtn, previewImg, uploadIcon, uploadText
 } from './modules/dom.js';
 
 import { fetchRandomQuokka, filterQuokkas, toggleLove } from './modules/quokka.js';
@@ -26,8 +26,23 @@ tabMypage.addEventListener("click", () => switchTab('mypage')); // My Page 연�
 uploadArea.addEventListener("click", () => fileInput.click());
 
 fileInput.addEventListener("change", (e) => {
-    if (e.target.files.length > 0) {
-        uploadArea.querySelector("p").textContent = `선택된 파일: ${e.target.files[0].name}`;
+    const file = e.target.files[0];
+    if (file) {
+        uploadText.textContent = `선택된 파일: ${file.name}`;
+        
+        // 이미지 미리보기 FileReader
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImg.src = e.target.result;
+            previewImg.style.display = "block";
+            uploadIcon.style.display = "none";
+        };
+        reader.readAsDataURL(file);
+    } else {
+        uploadText.textContent = "클릭해서 쿼카 사진을 선택하세요!";
+        previewImg.style.display = "none";
+        previewImg.src = "";
+        uploadIcon.style.display = "block";
     }
 });
 

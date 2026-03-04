@@ -1,9 +1,10 @@
 import { _supabase } from './config.js';
 import { 
-    fileInput, uploadName, uploadPersonality, uploadBtn, uploadStatus, uploadArea
+    fileInput, uploadName, uploadPersonality, uploadBtn, uploadStatus, uploadArea,
+    previewImg, uploadIcon, uploadText
 } from './dom.js';
 import { fetchRandomQuokka } from './quokka.js';
-import { switchTab } from './ui.js'; // UI 모듈은 아직 안 만들었지만 곧 만들 겁니다.
+import { switchTab, showToast } from './ui.js';
 
 // 8. 이미지 업로드 처리
 export async function handleUpload() {
@@ -11,8 +12,8 @@ export async function handleUpload() {
     const name = uploadName.value;
     const personality = uploadPersonality.value;
 
-    if (!file || !name) {
-        alert("사진과 이름을 모두 입력해주세요!");
+    if (!file || !name.trim() || !personality.trim()) {
+        showToast("사진, 이름, 성격을 모두 입력해주세요!", "error");
         return;
     }
 
@@ -45,19 +46,22 @@ export async function handleUpload() {
 
         if (dbError) throw dbError;
 
-        alert("쿼카 등록 성공! 🎉");
+        showToast("쿼카 등록 성공! 🎉", "success");
         uploadStatus.textContent = "업로드 완료!";
         
         fileInput.value = "";
         uploadName.value = "";
-        uploadArea.querySelector("p").textContent = "클릭해서 쿼카 사진을 선택하세요!";
+        uploadText.textContent = "클릭해서 쿼카 사진을 선택하세요!";
+        previewImg.style.display = "none";
+        previewImg.src = "";
+        uploadIcon.style.display = "block";
         
         switchTab('voting');
         fetchRandomQuokka(); 
 
     } catch (err) {
         console.error("업로드 실패:", err);
-        alert("업로드 중 오류가 발생했습니다 ㅠㅠ");
+        showToast("업로드 중 오류가 발생했습니다 ㅠㅠ", "error");
         uploadStatus.textContent = "오류 발생";
     } finally {
         uploadBtn.disabled = false;

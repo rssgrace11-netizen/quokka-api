@@ -15,8 +15,7 @@ import {
 
 } from './dom.js';
 
-
-
+import { showToast } from './ui.js';
 
 
 
@@ -132,17 +131,9 @@ export async function toggleLove() {
 
 
   if (!currentUser) {
-
-
-      alert("로그인해야 '나만의 쿼카'로 저장할 수 있어요! 🐹");
-
-
+      showToast("로그인해야 '나만의 쿼카'로 저장/취소 할 수 있어요! 🐹", "info");
       document.getElementById("login-modal").style.display = "flex";
-
-
       return;
-
-
   }
 
 
@@ -159,14 +150,43 @@ export async function toggleLove() {
 
 
   if (isLoved) {
+      // 1-1. 좋아요 취소(Unlike) 로직
+      icon.classList.remove("fa-solid");
+      icon.classList.add("fa-regular");
+      loveBtn.style.color = "#aaa"; 
 
+      const newLikes = Math.max(0, (currentQuokka.likes || 0) - 1);
 
-    alert("이미 내 컬렉션에 추가된 쿼카입니다! 📔");
+      try {
+          const { error: deleteError } = await _supabase
+            .from('likes')
+            .delete()
+            .match({ user_id: currentUser.id, quokka_id: currentQuokka.id });
 
+          if (deleteError) throw deleteError;
 
-    return;
+          const { error } = await _supabase
+            .from('quokkas')
+            .update({ likes: newLikes })
+            .eq('id', currentQuokka.id);
 
+          if (error) throw error;
 
+          currentQuokka.likes = newLikes;
+          setState('currentQuokka', currentQuokka);
+          updateLikeTag(newLikes);
+          showToast("내 도감에서 삭제되었습니다. �", "info");
+
+      } catch (err) {
+          console.error("좋아요 취소 실패:", err);
+          showToast("취소하지 못했습니다 ㅠㅠ", "error");
+          
+          // UI 롤백
+          icon.classList.remove("fa-regular");
+          icon.classList.add("fa-solid");
+          loveBtn.style.color = "#ff6b6b";
+      }
+      return;
   }
 
 
@@ -228,14 +248,8 @@ export async function toggleLove() {
 
 
           if (likeError.code === '23505') { // Postgres Unique Violation Code
-
-
-              alert("이미 저장된 쿼카입니다!");
-
-
+              showToast("이미 내 도감에 저장된 쿼카입니다! 📔", "error");
               return;
-
-
           }
 
 
@@ -287,7 +301,7 @@ export async function toggleLove() {
       
 
 
-      console.log("내 도감에 저장 완료! ❤️");
+      showToast("내 도감에 저장 완료! ❤️", "success");
 
 
 
@@ -299,7 +313,7 @@ export async function toggleLove() {
       console.error("좋아요 실패:", err);
 
 
-      alert("저장하지 못했습니다 ㅠㅠ");
+      showToast("저장하지 못했습니다 ㅠㅠ", "error");
 
 
       
@@ -500,24 +514,66 @@ export async function loadMyQuokkas() {
                 </div>
 
 
-                <div style="text-align: center; color: #ff6b6b;">
-
-
+                <div class="unlike-btn" data-id="${quokka.id}" data-likes="${quokka.likes}" style="text-align: center; color: #ff6b6b; cursor: pointer; transition: transform 0.2s;">
                     <i class="fa-solid fa-heart"></i>
-
-
                     <div style="font-size: 0.8rem; font-weight: bold;">${quokka.likes}</div>
-
-
                 </div>
-
-
             `;
 
 
             myQuokkaList.appendChild(card);
+        });
 
+        // 3. 각 카드에 '좋아요 취소' 이벤트 리스너 연결
+        const unlikeBtns = myQuokkaList.querySelectorAll('.unlike-btn');
+        unlikeBtns.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+                const quokkaId = btn.dataset.id;
+                const likes = parseInt(btn.dataset.likes, 10);
+                const newLikes = Math.max(0, likes - 1);
 
+                const card = btn.closest('.my-quokka-card');
+                card.style.opacity = 0.5;
+
+                try {
+                    const { error: deleteError } = await _supabase
+                        .from('likes')
+                        .delete()
+                        .match({ user_id: currentUser.id, quokka_id: quokkaId });
+
+                    if (deleteError) throw deleteError;
+
+                    const { error } = await _supabase
+                        .from('quokkas')
+                        .update({ likes: newLikes })
+                        .eq('id', quokkaId);
+
+                    if (error) throw error;
+
+                    card.remove();
+                    showToast("도감에서 삭제되었습니다. 💔", "info");
+
+                    // 현재 투표화면에 띄워져 있는 쿼카면 UI 동기화
+                    if (currentQuokka && currentQuokka.id == quokkaId) {
+                        currentQuokka.likes = newLikes;
+                        setState('currentQuokka', currentQuokka);
+                        updateLikeTag(newLikes);
+                        const mainIcon = loveBtn.querySelector("i");
+                        mainIcon.classList.remove("fa-solid");
+                        mainIcon.classList.add("fa-regular");
+                        loveBtn.style.color = "#aaa";
+                    }
+
+                    if (myQuokkaList.children.length === 0) {
+                        myQuokkaList.innerHTML = `<div style="text-align: center; color: #888; margin-top: 50px;"><i class="fa-regular fa-folder-open" style="font-size: 3rem; margin-bottom: 10px;"></i><p>도감이 비었습니다!</p></div>`;
+                    }
+
+                } catch (err) {
+                    console.error("좋아요 취소 에러:", err);
+                    showToast("오류가 발생했습니다.", "error");
+                    card.style.opacity = 1;
+                }
+            });
         });
 
 

@@ -199,8 +199,9 @@
                 <h3 style="margin-bottom: 1.5rem; color: var(--text-primary);">Upload a Quokka</h3>
                 
                 <div class="upload-area" style="border: 2px dashed #ddd; padding: 2rem; border-radius: 12px; margin-bottom: 1.5rem; cursor: pointer;">
-                    <i class="fa-solid fa-image" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
-                    <p style="color: #666; font-size: 0.9rem;">클릭해서 쿼카 사진을 선택하세요!</p>
+                    <i id="upload-icon" class="fa-solid fa-image" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                    <p id="upload-text" style="color: #666; font-size: 0.9rem;">클릭해서 쿼카 사진을 선택하세요!</p>
+                    <img id="preview-img" src="" style="width: 100%; max-height: 250px; object-fit: cover; border-radius: 8px; display: none;">
                     <input type="file" id="file-input" accept="image/*" style="display: none;">
                 </div>
 
@@ -241,5 +242,8 @@
     <!-- Supabase 라이브러리 추가 -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script type="module" src="js/script.js"></script>
+    <!-- Toast UI Container -->
+    <div id="toast-container" class="toast-container"></div>
+
   </body>
 </html>

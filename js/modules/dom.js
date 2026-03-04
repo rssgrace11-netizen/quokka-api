@@ -21,6 +21,9 @@ export const uploadSection = document.getElementById("upload-section");
 export const tabUpload = document.getElementById("tab-upload");
 export const fileInput = document.getElementById("file-input");
 export const uploadArea = document.querySelector(".upload-area");
+export const previewImg = document.getElementById("preview-img");
+export const uploadIcon = document.getElementById("upload-icon");
+export const uploadText = document.getElementById("upload-text");
 export const uploadBtn = document.getElementById("upload-btn");
 export const uploadName = document.getElementById("upload-name");
 export const uploadPersonality = document.getElementById("upload-personality");
@@ -47,3 +50,6 @@ export const mobileLoginBtn = document.getElementById("mobile-login-btn");
 export const logoutModal = document.getElementById("logout-modal");
 export const btnConfirmLogout = document.getElementById("btn-confirm-logout");
 export const btnCancelLogout = document.getElementById("btn-cancel-logout");
+
+// 2-6. 요소 선택: UI 공통
+export const toastContainer = document.getElementById("toast-container");
