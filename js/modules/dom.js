@@ -5,6 +5,7 @@ export const tabVoting = document.getElementById("tab-voting");
 export const tabBreeds = document.getElementById("tab-breeds");
 
 export const quokkaImg = document.getElementById("quokka-img");
+export const loadingSpinner = document.getElementById("loading-spinner");
 export const newQuokkaBtn = document.getElementById("new-quokka-btn");
 export const loveBtn = document.getElementById("love-btn");
 export const nameEl = document.getElementById("quokka-name");
