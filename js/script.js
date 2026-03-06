@@ -9,8 +9,12 @@ import { initQuokkas, showNextQuokka, showPrevQuokka, filterQuokkas, toggleLove 
 import { handleUpload } from './modules/upload.js';
 import { switchTab } from './modules/ui.js';
 import { checkSession, initAuthEvents } from './modules/auth.js';
+import { initI18n } from './modules/i18n.js';
 
 console.log("The Quokka API v5.0 (Modularized) Started...");
+
+// 0. 다국어 설정 초기화
+initI18n();
 
 // 1. 이벤트 리스너 연결
 newQuokkaBtn.addEventListener("click", showNextQuokka);

@@ -183,6 +183,7 @@
         <ul class="doc-nav">
           <li><a href="#search">Search Images</a></li>
           <li><a href="#breeds">List Breeds</a></li>
+          <li><a href="#happiness" style="display: flex; justify-content: space-between; align-items: center;">Analyze Happiness <span class="new-badge">NEW</span></a></li>
         </ul>
       </aside>
 
@@ -209,7 +210,11 @@
             기본 기능은 인증 없이도 바로 사용할 수 있습니다.
           </p>
           <div class="code-block api-key-box">
-            x-api-key: YOUR_API_KEY_HERE
+            <div class="code-header">
+              <div class="mac-btns"><span></span><span></span><span></span></div>
+              <button class="code-copy-btn" title="Copy code"><i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre><code class="language-text">x-api-key: YOUR_API_KEY_HERE</code></pre>
           </div>
         </section>
 
@@ -248,18 +253,103 @@
 
           <h3>Example Response</h3>
           <div class="code-block">
-[
+            <div class="code-header">
+              <div class="mac-btns"><span></span><span></span><span></span></div>
+              <button class="code-copy-btn" title="Copy code"><i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre><code>[
   {
     "id": "q_001",
     "url": "https://cdn.thequokka.com/images/q_001.jpg",
     "width": 800,
     "height": 600
   }
-]
+]</code></pre>
+          </div>
+        </section>
+
+        <!-- List Breeds -->
+        <section id="breeds" class="doc-section">
+          <h2 class="doc-subtitle">List Breeds (Macropodidae)</h2>
+          <p>
+            쿼카는 캥거루, 왈라비와 같은 유대류(Macropodidae, 캥거루과)에 속합니다. 
+            이 엔드포인트는 쿼카 API에서 지원하는 관련 동물 친구들의 목록을 반환합니다.
+          </p>
+          
+          <div class="endpoint">
+            <span class="method">GET</span>
+            <span>https://api.thequokka.com/v1/breeds</span>
+          </div>
+
+          <h3>Example Response</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <div class="mac-btns"><span></span><span></span><span></span></div>
+              <button class="code-copy-btn" title="Copy code"><i class="fa-regular fa-copy"></i></button>
+            </div>
+            <pre><code>[
+  {
+    "id": "br_quokka",
+    "name": "Quokka",
+    "family": "Macropodidae",
+    "habitat": "Rottnest Island, Australia"
+  },
+  {
+    "id": "br_kangaroo",
+    "name": "Kangaroo",
+    "family": "Macropodidae",
+    "habitat": "Australia mainland"
+  },
+  {
+    "id": "br_wallaby",
+    "name": "Wallaby",
+    "family": "Macropodidae",
+    "habitat": "Australia & New Guinea"
+  }
+]</code></pre>
+          </div>
+        </section>
+
+        <!-- Analyze Happiness -->
+        <section id="happiness" class="doc-section">
+          <h2 class="doc-subtitle">Analyze Happiness (AI) <span class="new-badge">NEW</span></h2>
+          <p>
+            The Quokka API의 최첨단 AI 알고리즘이 제공된 사진 속 쿼카의 표정을 분석하여 미소 지수(Happiness Index)를 측정합니다.
+          </p>
+          
+          <div class="endpoint">
+            <span class="method" style="background-color: #ffb300;">POST</span>
+            <span>https://api.thequokka.com/v1/images/{id}/analyze</span>
+          </div>
+
+          <h3 style="margin-top: 2rem; margin-bottom: 1rem;">Interactive Demo</h3>
+          <p>아래에서 쿼카 이미지 ID를 입력하고 직접 행복 지수를 측정해 보세요!</p>
+          
+          <div class="demo-widget">
+            <div class="demo-input-group">
+              <input type="text" id="demo-img-id" placeholder="Enter Image ID (e.g. q_001)" value="idx_quokka_random_01" />
+              <button id="btn-analyze" class="btn-demo">Analyze</button>
+            </div>
+            
+            <div id="demo-result" class="demo-result hidden">
+              <div class="result-header">
+                <h4>Analysis Complete</h4>
+                <i class="fa-solid fa-face-smile-beam icon-success"></i>
+              </div>
+              <p class="result-msg" id="demo-msg">This quokka is radiating joy!</p>
+              <div class="progress-container">
+                <div class="progress-bar-bg">
+                  <div class="progress-fill" id="demo-progress"></div>
+                </div>
+                <span class="progress-text" id="demo-percent">0%</span>
+              </div>
+            </div>
           </div>
         </section>
 
       </main>
     </div>
+
+    <script src="js/docs.js"></script>
   </body>
 </html>
